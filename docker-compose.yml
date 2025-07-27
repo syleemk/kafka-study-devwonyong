@@ -20,9 +20,9 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      KAFKA_LOG_DIRS: /kafka/kafka-logs
+      KAFKA_LOG_DIRS: /opt/kafka_2.12-2.5.0/kafka-logs
       KAFKA_NUM_PARTITIONS: 3
     volumes:
       - ./wait-for-it.sh:/wait-for-it.sh
-      - ./kafka-logs:/kafka/kafka-logs # kafka 로그 확인하기 위해 볼륨 마운트
+      - ./kafka-logs:/opt/kafka_2.12-2.5.0/kafka-logs # kafka 로그 확인하기 위해 볼륨 마운트
     command: ["/bin/bash", "-c", "/wait-for-it.sh zookeeper:2181 -- start-kafka.sh"]
