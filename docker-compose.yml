@@ -1,0 +1,28 @@
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: wurstmeister/kafka:2.12-2.5.0
+    container_name: kafka
+    depends_on:
+      - zookeeper # kafka 실행전 zookeeper 실행되어야함. 아래 설정과 함께 wait-for-it.sh 함께 사용
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_LOG_DIRS: /kafka/kafka-logs
+      KAFKA_NUM_PARTITIONS: 3
+    volumes:
+      - ./wait-for-it.sh:/wait-for-it.sh
+      - ./kafka-logs:/kafka/kafka-logs # kafka 로그 확인하기 위해 볼륨 마운트
+    command: ["/bin/bash", "-c", "/wait-for-it.sh zookeeper:2181 -- start-kafka.sh"]
