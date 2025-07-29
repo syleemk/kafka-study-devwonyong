@@ -7,7 +7,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
 
-public class ProducerWithKeyValue {
+public class ProducerExactPartition {
     private final static String TOPIC_NAME = "test";
     private final static String BOOTSTRAP_SERVERS = "localhost:9092";
 
@@ -19,10 +19,10 @@ public class ProducerWithKeyValue {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(configs);
 
-        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, "sooyoung", "handsome");
+        int partitionNo = 0;
+        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, partitionNo, "sooyoung", "handsome");
         producer.send(record);
-        ProducerRecord<String, String> record2 = new ProducerRecord<>(TOPIC_NAME, "hyunjoon", "ugly");
-        producer.send(record2);
+
         producer.flush();
         producer.close();
     }
