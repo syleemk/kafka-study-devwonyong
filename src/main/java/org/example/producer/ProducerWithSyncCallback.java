@@ -1,4 +1,4 @@
-package org.example;
+package org.example.producer;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -32,7 +32,7 @@ public class ProducerWithSyncCallback {
         try {
             // get() method 를 통해서 동기적으로 record 의 메타데이터를 가져올 수 있음
             RecordMetadata metadata = producer.send(record).get();
-            // [main] INFO org.example.ProducerWithSyncCallback - test-0@2 (토픽-파티션번호@오프셋)
+            // [main] INFO org.example.producer.ProducerWithSyncCallback - test-0@2 (토픽-파티션번호@오프셋)
             // 어떻게 알 수 있나? -> 기본 옵션인 acks=1 이기 때문에 leader 의 acks 통해서 메타데이터를 가져올 수 있음
             logger.info(metadata.toString());
         } catch (Exception e) {

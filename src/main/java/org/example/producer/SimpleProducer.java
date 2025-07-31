@@ -1,13 +1,16 @@
-package org.example;
+package org.example.producer;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
-public class ProducerExactPartition {
+public class SimpleProducer {
+    private final static Logger logger = LoggerFactory.getLogger(SimpleProducer.class);
     private final static String TOPIC_NAME = "test";
     private final static String BOOTSTRAP_SERVERS = "localhost:9092";
 
@@ -19,10 +22,10 @@ public class ProducerExactPartition {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(configs);
 
-        int partitionNo = 0;
-        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, partitionNo, "sooyoung", "handsome");
+        String messageValue = "intellij message check";
+        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, messageValue);
         producer.send(record);
-
+        logger.info("{}", record);
         producer.flush();
         producer.close();
     }

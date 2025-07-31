@@ -1,16 +1,13 @@
-package org.example;
+package org.example.producer;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
-public class SimpleProducer {
-    private final static Logger logger = LoggerFactory.getLogger(SimpleProducer.class);
+public class ProducerWithKeyValue {
     private final static String TOPIC_NAME = "test";
     private final static String BOOTSTRAP_SERVERS = "localhost:9092";
 
@@ -22,10 +19,10 @@ public class SimpleProducer {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(configs);
 
-        String messageValue = "intellij message check";
-        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, messageValue);
+        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, "sooyoung", "handsome");
         producer.send(record);
-        logger.info("{}", record);
+        ProducerRecord<String, String> record2 = new ProducerRecord<>(TOPIC_NAME, "hyunjoon", "ugly");
+        producer.send(record2);
         producer.flush();
         producer.close();
     }
